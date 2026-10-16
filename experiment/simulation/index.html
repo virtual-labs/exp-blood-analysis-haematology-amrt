@@ -1,13 +1,1165 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Analysis & Hematology Testing Simulator</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Plotly.js for Volume Histograms -->
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .step-item.active-step {
+      border-color: #a4123f;
+      background-color: #fff1f2;
+    }
+    .step-item.completed-step .step-badge {
+      background-color: #059669;
+      color: #ffffff;
+    }
+    .interactive-canvas {
+      cursor: crosshair;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .interactive-canvas:hover {
+      box-shadow: 0 0 20px rgba(164, 18, 63, 0.35);
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #ffffff; }
+    }
+  </style>
 </head>
-<body>
-		<!-- Your code goes here-->
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+  <!-- Top Bar: Exact Attached Logo Only (Zero Distortion, Native Aspect Ratio + Persistent File Loader) -->
+  <header class="bg-white border-b border-slate-200 px-6 py-3">
+    <div class="max-w-7xl mx-auto flex items-center justify-start">
+      <img 
+        id="amrita-brand-logo"
+        src="logo-branding-amrita-universiy-2024 (1).jpg" 
+        alt="Amrita Vishwa Vidyapeetham" 
+        style="max-height: 68px; width: auto; height: auto; display: block;"
+        onerror="handleLogoFallback(this)"
+      >
+      <!-- Shown only if the HTML file is opened in a sandbox/folder without the image file alongside it -->
+      <label id="logo-file-picker" class="hidden no-print cursor-pointer inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-dashed border-[#a4123f] bg-rose-50/60 hover:bg-rose-100/70 text-[#a4123f] text-xs font-semibold transition">
+        <i data-lucide="image-plus" class="w-4 h-4"></i>
+        <span>Select "logo-branding-amrita-universiy-2024 (1).jpg" to embed exact logo</span>
+        <input type="file" accept="image/*" class="hidden" onchange="embedExactLogo(event)">
+      </label>
+    </div>
+  </header>
+
+  <!-- Main Workspace: 4-Step Procedure + Interactive Hematology Simulator -->
+  <main class="max-w-7xl mx-auto px-4 py-5 flex-grow w-full space-y-5">
+
+    <!-- Integrated 4-Step Procedure Bar -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 no-print">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <i data-lucide="list-ordered" class="w-4 h-4 text-[#a4123f]"></i>
+          <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
+            Simulation Procedure &amp; Interactive Workflow
+          </h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="procedure-progress-text" class="text-xs font-semibold text-[#a4123f] bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200">
+            Current Step: 1 of 4
+          </span>
+          <button onclick="resetSimulator()" class="text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded-full border border-slate-300 transition flex items-center gap-1">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset Simulator
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <!-- Step 1 -->
+        <div id="proc-step-1" class="step-item active-step p-3 rounded-lg border border-slate-200 transition-all">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="step-badge w-5 h-5 rounded-full bg-[#a4123f] text-white text-xs font-bold flex items-center justify-center shrink-0">1</span>
+            <span class="text-xs font-bold text-slate-900">Select Specimen</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-snug">
+            Choose a K2-EDTA patient blood sample from the dropdown in Panel 1.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="proc-step-2" class="step-item p-3 rounded-lg border border-slate-200 bg-slate-50/70 transition-all">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="step-badge w-5 h-5 rounded-full bg-slate-700 text-white text-xs font-bold flex items-center justify-center shrink-0">2</span>
+            <span class="text-xs font-bold text-slate-900">Configure Hardware</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-snug">
+            Set Aperture Current (100 &mu;A), SLS Lysing Reagent (1.0 mL), &amp; Orifice state in Panel 2.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="proc-step-3" class="step-item p-3 rounded-lg border border-slate-200 bg-slate-50/70 transition-all">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="step-badge w-5 h-5 rounded-full bg-slate-700 text-white text-xs font-bold flex items-center justify-center shrink-0">3</span>
+            <span class="text-xs font-bold text-slate-900">Aspirate &amp; Acquire</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-snug">
+            Click <strong>"Aspirate &amp; Run CBC Analysis"</strong> to generate DC pulses, histograms, &amp; smear.
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div id="proc-step-4" class="step-item p-3 rounded-lg border border-slate-200 bg-slate-50/70 transition-all">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="step-badge w-5 h-5 rounded-full bg-slate-700 text-white text-xs font-bold flex items-center justify-center shrink-0">4</span>
+            <span class="text-xs font-bold text-slate-900">Observation Log &amp; Export</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-snug">
+            Review auto-logged runs, inspect smear cells, and download results.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Simulator Grid -->
+    <div class="grid lg:grid-cols-12 gap-5">
+
+      <!-- Left Column: Specimen & Analyzer Controls (4 cols) -->
+      <div class="lg:col-span-4 space-y-5 no-print">
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h3 class="font-bold text-slate-900 flex items-center gap-2 text-sm">
+              <i data-lucide="sliders" class="w-4 h-4 text-[#a4123f]"></i> Hematology Analyzer Console
+            </h3>
+            <span id="analyzer-status" class="text-xs px-2.5 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-800">
+              READY
+            </span>
+          </div>
+
+          <!-- Step 1: Patient Sample Selection -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
+              1. Patient Whole Blood Specimen (K2-EDTA)
+            </label>
+            <select id="sample-select" onchange="onSampleSelected()" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#a4123f]">
+              <option value="normal">Sample A: Healthy Adult Control (M, 29y)</option>
+              <option value="ida">Sample B: Iron Deficiency Anemia (F, 34y)</option>
+              <option value="megalo">Sample C: Vitamin B12 / Megaloblastic Anemia (M, 62y)</option>
+              <option value="sepsis">Sample D: Acute Bacterial Leukocytosis (F, 45y)</option>
+              <option value="dengue">Sample E: Viral Hemorrhagic Thrombocytopenia (M, 22y)</option>
+              <option value="polycythemia">Sample F: Polycythemia Vera (M, 58y)</option>
+            </select>
+            <p id="sample-clinical-note" class="text-xs text-slate-600 mt-1.5 bg-slate-100 p-2 rounded border border-slate-200"></p>
+          </div>
+
+          <!-- Step 2: Instrument Calibration Controls -->
+          <div class="space-y-3 pt-2 border-t border-slate-100">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500">
+              2. Coulter Hardware &amp; Reagent Parameters
+            </label>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-medium text-slate-700">Aperture Excitation Current (I):</span>
+                <span id="current-val" class="mono font-bold text-[#a4123f]">100 &mu;A</span>
+              </div>
+              <input id="aperture-current" type="range" min="60" max="140" step="5" value="100" oninput="onHardwareChanged()" class="w-full accent-[#a4123f]">
+              <span class="text-[11px] text-slate-400">Scales pulse amplitude (&Delta;V = I &times; &Delta;R). Nominal: 100 &mu;A.</span>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-medium text-slate-700">SLS Lysing Reagent Dose:</span>
+                <span id="lyse-val" class="mono font-bold text-[#a4123f]">1.0 mL (Optimal)</span>
+              </div>
+              <input id="lyse-volume" type="range" min="0.2" max="1.5" step="0.1" value="1.0" oninput="onHardwareChanged()" class="w-full accent-[#a4123f]">
+              <span class="text-[11px] text-slate-400">&lt;0.6 mL causes incomplete RBC lysis (ghost cells falsely elevate WBC).</span>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-slate-700 mb-1">Aperture Orifice State (100 &mu;m):</label>
+              <select id="aperture-state" onchange="onHardwareChanged()" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium">
+                <option value="clean">Clean Orifice (Unobstructed Laminar Flow)</option>
+                <option value="clogged">Partially Clogged (Fibrin Micro-clot Debris)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Step 3: Action, Download & Reset Buttons -->
+          <div class="pt-2 flex flex-col gap-2">
+            <button onclick="onAspirateClicked()" class="w-full bg-[#a4123f] hover:bg-[#830e32] text-white font-semibold py-2.5 px-4 rounded-lg shadow-sm transition flex items-center justify-center gap-2 text-sm">
+              <i data-lucide="play" class="w-4 h-4"></i> Aspirate &amp; Run CBC Analysis
+            </button>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="flushAperture()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 border border-slate-300">
+                <i data-lucide="droplets" class="w-3.5 h-3.5 text-blue-600"></i> Zap &amp; Flush Orifice
+              </button>
+              <button onclick="resetSimulator()" class="bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-[#a4123f] font-medium py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 border border-slate-300">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-[#a4123f]"></i> Reset Simulator
+              </button>
+            </div>
+            <button onclick="downloadResultsCSV()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition flex items-center justify-center gap-2 text-xs">
+              <i data-lucide="download" class="w-4 h-4"></i> Download Result (CSV)
+            </button>
+          </div>
+        </div>
+
+        <!-- Spectrophotometer Module (540 nm Hb) -->
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-3">
+          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+            <i data-lucide="sun" class="w-4 h-4 text-amber-600"></i> Hb Spectrophotometer (&lambda; = 540 nm)
+          </h3>
+          <div class="flex items-center gap-3 bg-slate-900 p-3 rounded-lg text-white">
+            <div class="text-xs font-mono text-amber-300 shrink-0">LED 540nm &rarr;</div>
+            <div id="cuvette-visual" class="w-10 h-12 rounded border-2 border-slate-400 flex items-center justify-center text-[10px] font-mono shadow-inner transition-colors duration-500" style="background-color: rgba(220, 38, 38, 0.75);">
+              Hb
+            </div>
+            <div class="text-xs font-mono text-emerald-300 shrink-0">&rarr; Photodiode</div>
+            <div class="ml-auto text-right">
+              <div class="text-[10px] text-slate-400 uppercase">Absorbance (A)</div>
+              <div id="hb-absorbance" class="mono text-base font-bold text-emerald-400">0.444 OD</div>
+              <div id="hb-transmittance" class="mono text-[11px] text-slate-300">%T: 36.0%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center & Right Column: Interactive Visualizers & CBC Report (8 cols) -->
+      <div class="lg:col-span-8 space-y-5">
+
+        <!-- Live Canvases: Coulter Impedance Aperture + Interactive Peripheral Blood Smear -->
+        <div class="grid md:grid-cols-2 gap-4">
+          <!-- Coulter Aperture Live Canvas -->
+          <div class="bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-800 text-white">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                Coulter Sensing Zone &amp; Pulse Scope
+              </span>
+              <span class="mono text-xs text-emerald-400">100 &mu;m Orifice</span>
+            </div>
+            <canvas id="coulter-canvas" width="380" height="210" class="w-full rounded-lg bg-slate-950 border border-slate-800"></canvas>
+            <p class="text-[11px] text-slate-400 mt-1.5">
+              Left: Cells passing through DC sensing zone. Right: Real-time voltage pulses (&Delta;V &propto; cell volume in fL).
+            </p>
+          </div>
+
+          <!-- Interactive Digital Peripheral Blood Smear (Click to Inspect Cells) -->
+          <div class="bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-800 text-white">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                <i data-lucide="eye" class="w-3.5 h-3.5 text-pink-400"></i>
+                Peripheral Blood Smear (100x Oil)
+              </span>
+              <span id="smear-morphology-tag" class="text-[11px] bg-pink-950 text-pink-200 px-2 py-0.5 rounded border border-pink-800">
+                Normocytic Normochromic
+              </span>
+            </div>
+            <canvas id="smear-canvas" width="380" height="210" class="w-full rounded-lg bg-rose-50 border border-slate-700 interactive-canvas" onclick="inspectSmearCell(event)" title="Click any cell on the smear to inspect morphology!"></canvas>
+            <!-- Live Cell Inspector Tooltip Card -->
+            <div id="smear-inspector-card" class="mt-2 bg-slate-950 border border-slate-800 p-2.5 rounded-lg text-xs text-slate-300 flex items-start gap-2">
+              <i data-lucide="info" class="w-4 h-4 text-pink-400 shrink-0 mt-0.5"></i>
+              <div>
+                <span class="font-bold text-white">Microscope Inspector:</span> 
+                <span id="inspector-text">Click any individual cell (RBC, WBC, or Platelet) on the smear above to inspect its classification &amp; clinical relevance.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Automated Complete Blood Count (CBC) Numerical Report Table -->
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+          <div class="flex flex-wrap justify-between items-center gap-2 mb-3 border-b border-slate-100 pb-3">
+            <div>
+              <h3 class="font-bold text-slate-900 text-base">Automated Complete Blood Count (CBC) &amp; Indices Report</h3>
+              <p id="flag-banner" class="text-xs text-emerald-700 font-medium mt-0.5">
+                Instrument Status: No technical flags detected.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="diagnostic-impression" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-300">
+                Normal Hematology Profile
+              </span>
+              <button onclick="downloadCurrentReportTXT()" class="no-print text-xs font-semibold text-[#a4123f] bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-lg border border-rose-200 transition flex items-center gap-1">
+                <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download Report
+              </button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs md:text-sm text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-100 text-slate-600 border-b border-slate-200">
+                  <th class="py-2 px-3">Parameter</th>
+                  <th class="py-2 px-3">Result</th>
+                  <th class="py-2 px-3">Flag</th>
+                  <th class="py-2 px-3">Units</th>
+                  <th class="py-2 px-3">Reference Interval</th>
+                </tr>
+              </thead>
+              <tbody id="cbc-table-body" class="divide-y divide-slate-100 mono">
+                <!-- Populated dynamically via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Interactive Plotly Histograms Row with Clinical Insights Box -->
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 space-y-2">
+        <div class="flex justify-between items-center">
+          <h4 class="font-bold text-sm text-slate-800">RBC &amp; Platelet Volume Distribution Histogram</h4>
+          <span class="text-xs text-slate-500 mono">Channel: 2 – 250 fL</span>
+        </div>
+        <div id="rbc-plot" class="w-full h-56 cursor-pointer"></div>
+        <div id="rbc-insight" class="text-[11px] bg-slate-50 p-2 rounded border border-slate-200 text-slate-600">
+          <strong>Graph Insight:</strong> Click any region on the RBC curve to inspect volume peaks (Microcytic &lt;80 fL, Normocytic 80-100 fL, Macrocytic &gt;100 fL).
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 space-y-2">
+        <div class="flex justify-between items-center">
+          <h4 class="font-bold text-sm text-slate-800">WBC 3-Part Differential Histogram (Post-Lysis)</h4>
+          <span class="text-xs text-slate-500 mono">LYM | MID | GRAN (35 – 400 fL)</span>
+        </div>
+        <div id="wbc-plot" class="w-full h-56 cursor-pointer"></div>
+        <div id="wbc-insight" class="text-[11px] bg-slate-50 p-2 rounded border border-slate-200 text-slate-600">
+          <strong>Graph Insight:</strong> Click any region on the WBC curve to inspect Lymphocytes (35-90 fL), Mid-cells (90-160 fL), or Granulocytes (160-400 fL).
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 Section: Observation Log + Index Verification -->
+    <div id="step-4-panel" class="grid md:grid-cols-12 gap-5 transition-all">
+      <!-- Student Index Calculator Challenge -->
+      <div class="md:col-span-5 bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-3 no-print">
+        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+          <i data-lucide="calculator" class="w-4 h-4 text-[#a4123f]"></i> Step 4A: Verify Wintrobe's Indices Manually
+        </h3>
+        <p class="text-xs text-slate-600">
+          Compute <strong>MCV = (HCT &times; 10) / RBC</strong> and <strong>MCHC = (Hb &times; 100) / HCT</strong> from current CBC table values:
+        </p>
+        <div class="grid grid-cols-2 gap-3 pt-1">
+          <div>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Calculated MCV (fL):</label>
+            <input id="calc-mcv" type="number" step="0.1" placeholder="e.g. 88.5" class="w-full rounded border border-slate-300 px-2.5 py-1.5 text-sm mono">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Calculated MCHC (g/dL):</label>
+            <input id="calc-mchc" type="number" step="0.1" placeholder="e.g. 34.5" class="w-full rounded border border-slate-300 px-2.5 py-1.5 text-sm mono">
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="verifyIndices()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
+            Check Calculation
+          </button>
+          <button onclick="autoFillIndices()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium px-3 py-2 rounded-lg border border-slate-300 transition">
+            Show Formula Solution
+          </button>
+        </div>
+        <div id="calc-feedback" class="text-xs font-medium hidden p-2.5 rounded-lg"></div>
+      </div>
+
+      <!-- Automatically Populated Observation Log Table -->
+      <div class="md:col-span-7 bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-3">
+        <div class="flex flex-wrap justify-between items-center gap-2">
+          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+            <i data-lucide="table" class="w-4 h-4 text-[#a4123f]"></i> Step 4B: Experimental Observation Log (Auto-Recorded)
+          </h3>
+          <div class="flex items-center gap-2">
+            <span id="log-count-badge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+              1 Run Auto-Logged
+            </span>
+            <button onclick="downloadResultsCSV()" class="no-print text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 px-3 py-1 rounded-lg transition flex items-center gap-1 shadow-sm">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i> Download Result (CSV)
+            </button>
+          </div>
+        </div>
+        <div class="overflow-x-auto max-h-48">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-100 text-slate-600 border-b border-slate-200">
+                <th class="p-2">#</th>
+                <th class="p-2">Specimen</th>
+                <th class="p-2">RBC (10⁶/&mu;L)</th>
+                <th class="p-2">Hb (g/dL)</th>
+                <th class="p-2">HCT (%)</th>
+                <th class="p-2">MCV (fL)</th>
+                <th class="p-2">WBC (10³/&mu;L)</th>
+                <th class="p-2">PLT (10³/&mu;L)</th>
+              </tr>
+            </thead>
+            <tbody id="observation-log-body" class="divide-y divide-slate-100 mono">
+              <!-- Automatically populated on every analysis run -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==================== SIMULATOR JAVASCRIPT ==================== -->
+  <script>
+    lucide.createIcons();
+
+    // ==================== EXACT LOGO LOADER (NO DISTORTION) ====================
+    const LOGO_CANDIDATES = [
+      "logo-branding-amrita-universiy-2024 (1).jpg",
+      "logo-branding-amrita-universiy-2024 (1)_2.jpg",
+      "./logo-branding-amrita-universiy-2024 (1).jpg",
+      "logo-branding-amrita-universiy-2024.jpg",
+      "logo.jpg",
+      "logo.png"
+    ];
+    let logoAttemptIndex = 0;
+
+    function handleLogoFallback(imgEl) {
+      try {
+        const cachedLogo = localStorage.getItem('amrita_exact_logo_base64');
+        if (cachedLogo && imgEl.src !== cachedLogo) {
+          imgEl.src = cachedLogo;
+          return;
+        }
+      } catch (e) {}
+
+      logoAttemptIndex++;
+      if (logoAttemptIndex < LOGO_CANDIDATES.length) {
+        imgEl.src = LOGO_CANDIDATES[logoAttemptIndex];
+      } else {
+        imgEl.style.display = 'none';
+        document.getElementById('logo-file-picker').classList.remove('hidden');
+      }
+    }
+
+    function embedExactLogo(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        const imgEl = document.getElementById('amrita-brand-logo');
+        imgEl.src = dataUrl;
+        imgEl.style.display = 'block';
+        document.getElementById('logo-file-picker').classList.add('hidden');
+        try {
+          localStorage.setItem('amrita_exact_logo_base64', dataUrl);
+        } catch (err) {}
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ==================== CLINICAL BLOOD PROFILES DATABASE ====================
+    const BLOOD_SAMPLES = {
+      normal: {
+        name: "Healthy Adult Control",
+        clinicalNote: "Asymptomatic routine health checkup. Normal erythropoiesis, leukocyte distribution, and thrombopoiesis.",
+        morphology: "Normocytic Normochromic",
+        impression: "Normal Hematology Profile",
+        rbc: 4.85, hb: 14.8, mcv: 88.5, rdw: 12.6, wbc: 7.2, lymPct: 30.0, midPct: 7.0, granPct: 63.0, plt: 265
+      },
+      ida: {
+        name: "Iron Deficiency Anemia",
+        clinicalNote: "34yo female presenting with chronic fatigue, pallor, and koilonychia. Depleted ferritin stores impair heme synthesis.",
+        morphology: "Microcytic Hypochromic + Anisocytosis",
+        impression: "Microcytic Hypochromic Anemia (Suspect Iron Deficiency)",
+        rbc: 3.65, hb: 8.6, mcv: 68.0, rdw: 18.2, wbc: 6.8, lymPct: 32.0, midPct: 6.5, granPct: 61.5, plt: 410
+      },
+      megalo: {
+        name: "Megaloblastic Anemia (B12 Deficiency)",
+        clinicalNote: "62yo male with macrocytic anemia and mild paresthesia. Impaired DNA synthesis causes nuclear-cytoplasmic asynchrony.",
+        morphology: "Macrocytic Ovalocytes + Hypersegmented Neutrophils",
+        impression: "Macrocytic Anemia with Mild Pancytopenia",
+        rbc: 2.55, hb: 9.2, mcv: 114.5, rdw: 16.8, wbc: 4.1, lymPct: 35.0, midPct: 7.0, granPct: 58.0, plt: 135
+      },
+      sepsis: {
+        name: "Acute Bacterial Leukocytosis",
+        clinicalNote: "45yo female with high fever (39.4°C) and lobar pneumonia. Marked myeloid hyperplasia and neutrophilic left shift.",
+        morphology: "Marked Neutrophilia + Toxic Granulation",
+        impression: "Acute Neutrophilic Leukocytosis",
+        rbc: 4.50, hb: 13.5, mcv: 87.0, rdw: 13.1, wbc: 22.8, lymPct: 10.5, midPct: 5.5, granPct: 84.0, plt: 330
+      },
+      dengue: {
+        name: "Viral Hemorrhagic Thrombocytopenia",
+        clinicalNote: "22yo male Day 5 of Dengue fever with petechiae. Peripheral platelet destruction, hemoconcentration, and relative lymphocytosis.",
+        morphology: "Severe Thrombocytopenia + Atypical Lymphocytes",
+        impression: "Severe Thrombocytopenia with Hemoconcentration",
+        rbc: 5.45, hb: 16.4, mcv: 89.0, rdw: 13.0, wbc: 3.1, lymPct: 54.0, midPct: 9.0, granPct: 37.0, plt: 28
+      },
+      polycythemia: {
+        name: "Polycythemia Vera (JAK2+)",
+        clinicalNote: "58yo male with plethora, headache, and hyperviscosity. Clonal myeloproliferation of erythroid, myeloid, and megakaryocytic lines.",
+        morphology: "Crowded Normocytic Erythrocytosis",
+        impression: "Panmyelosis / Erythrocytosis (Polycythemia Vera)",
+        rbc: 7.10, hb: 19.8, mcv: 84.0, rdw: 14.2, wbc: 13.4, lymPct: 20.0, midPct: 6.0, granPct: 74.0, plt: 540
+      }
+    };
+
+    let currentComputedResult = null;
+    let observationLog = [];
+    let pulseHistory = [];
+    let particles = [];
+    let smearCellCoords = []; // Stores drawn cell positions for interactive clicking
+
+    // 4-Step Procedure Tracker Helper
+    function advanceProcedureStep(stepNumber) {
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById(`proc-step-${i}`);
+        const badge = el.querySelector('.step-badge');
+        el.classList.remove('active-step');
+        if (i < stepNumber) {
+          el.classList.add('completed-step');
+          badge.innerHTML = '&check;';
+        } else if (i === stepNumber) {
+          el.classList.remove('completed-step');
+          el.classList.add('active-step');
+          badge.textContent = i;
+        } else {
+          el.classList.remove('completed-step');
+          badge.textContent = i;
+        }
+      }
+      document.getElementById('procedure-progress-text').textContent = 
+        stepNumber <= 4 ? `Current Step: ${stepNumber} of 4` : `All 4 Procedure Steps Completed!`;
+    }
+
+    function onSampleSelected() {
+      const key = document.getElementById('sample-select').value;
+      document.getElementById('sample-clinical-note').textContent = BLOOD_SAMPLES[key].clinicalNote;
+      advanceProcedureStep(2);
+      runAnalyzer(true);
+    }
+
+    function onHardwareChanged() {
+      updateHardwareReadout();
+      advanceProcedureStep(3);
+    }
+
+    function onAspirateClicked() {
+      advanceProcedureStep(4);
+      runAnalyzer(true);
+      const step4Panel = document.getElementById('step-4-panel');
+      step4Panel.classList.add('ring-2', 'ring-[#a4123f]', 'rounded-xl');
+      setTimeout(() => step4Panel.classList.remove('ring-2', 'ring-[#a4123f]', 'rounded-xl'), 1200);
+    }
+
+    function updateHardwareReadout() {
+      const current = parseFloat(document.getElementById('aperture-current').value);
+      const lyse = parseFloat(document.getElementById('lyse-volume').value);
+      document.getElementById('current-val').innerHTML = `${current} &mu;A`;
+      let lyseLabel = "Optimal";
+      if (lyse < 0.6) lyseLabel = "Under-lysed!";
+      else if (lyse > 1.3) lyseLabel = "Excess";
+      document.getElementById('lyse-val').textContent = `${lyse.toFixed(1)} mL (${lyseLabel})`;
+    }
+
+    function flushAperture() {
+      document.getElementById('aperture-state').value = 'clean';
+      document.getElementById('aperture-current').value = 100;
+      document.getElementById('lyse-volume').value = 1.0;
+      updateHardwareReadout();
+      advanceProcedureStep(4);
+      runAnalyzer(true);
+    }
+
+    function resetSimulator() {
+      document.getElementById('sample-select').value = 'normal';
+      document.getElementById('aperture-current').value = 100;
+      document.getElementById('lyse-volume').value = 1.0;
+      document.getElementById('aperture-state').value = 'clean';
+      document.getElementById('calc-mcv').value = '';
+      document.getElementById('calc-mchc').value = '';
+      document.getElementById('calc-feedback').classList.add('hidden');
+      document.getElementById('inspector-text').textContent = "Click any individual cell (RBC, WBC, or Platelet) on the smear above to inspect its classification & clinical relevance.";
+
+      observationLog = [];
+      pulseHistory = [];
+      updateHardwareReadout();
+      document.getElementById('sample-clinical-note').textContent = BLOOD_SAMPLES.normal.clinicalNote;
+      advanceProcedureStep(1);
+      runAnalyzer(true);
+    }
+
+    // Core Simulation Engine
+    function runAnalyzer(autoLog = true) {
+      const sampleKey = document.getElementById('sample-select').value;
+      const base = BLOOD_SAMPLES[sampleKey];
+      const current = parseFloat(document.getElementById('aperture-current').value);
+      const lyse = parseFloat(document.getElementById('lyse-volume').value);
+      const orificeState = document.getElementById('aperture-state').value;
+
+      const currentScale = current / 100.0;
+      let rbc = base.rbc;
+      let mcv = base.mcv * currentScale;
+      let rdw = base.rdw;
+      let hb = base.hb;
+      let wbc = base.wbc;
+      let plt = base.plt;
+      let lymPct = base.lymPct;
+      let midPct = base.midPct;
+      let granPct = base.granPct;
+
+      let flags = [];
+
+      if (lyse < 0.6) {
+        const unlysedFactor = (0.6 - lyse) * 35.0;
+        wbc = wbc + unlysedFactor;
+        lymPct = Math.min(85, lymPct + (0.6 - lyse) * 60);
+        granPct = Math.max(10, 100 - lymPct - midPct);
+        hb = hb * 0.88;
+        flags.push("R1 Flag: Incomplete RBC Lysis (Ghost RBC interference at 35 fL threshold; falsely elevated WBC)");
+      }
+
+      if (orificeState === 'clogged') {
+        rbc *= 0.76;
+        wbc *= 0.78;
+        plt *= 0.72;
+        mcv *= 1.12;
+        rdw += 4.5;
+        flags.push("Aperture Alert: Partial 100 µm Orifice Blockage (Flow restriction + turbulent pulse broadening)");
+      }
+
+      if (Math.abs(current - 100) >= 15) {
+        flags.push(`Calibration Alert: Aperture Current (${current} µA) deviates from 100 µA reference, shifting MCV pulse sizing.`);
+      }
+
+      const hct = (rbc * mcv) / 10.0;
+      const mch = (hb * 10.0) / rbc;
+      const mchc = (hb * 100.0) / hct;
+      const absorbance = (hb * 0.030).toFixed(3);
+      const transmittance = (Math.pow(10, -absorbance) * 100).toFixed(1);
+
+      currentComputedResult = {
+        timestamp: new Date().toLocaleTimeString(),
+        sampleName: base.name,
+        morphology: base.morphology,
+        impression: base.impression,
+        rbc, hb, hct, mcv, mch, mchc, rdw, wbc, lymPct, midPct, granPct, plt,
+        absorbance, transmittance,
+        lyse, orificeState, current,
+        flags: flags.length ? flags.join("; ") : "None"
+      };
+
+      document.getElementById('hb-absorbance').textContent = `${absorbance} OD`;
+      document.getElementById('hb-transmittance').textContent = `%T: ${transmittance}%`;
+      const alpha = Math.min(0.95, Math.max(0.25, hb / 20));
+      document.getElementById('cuvette-visual').style.backgroundColor = `rgba(220, 38, 38, ${alpha})`;
+
+      const flagBanner = document.getElementById('flag-banner');
+      const statusBadge = document.getElementById('analyzer-status');
+      if (flags.length === 0) {
+        flagBanner.textContent = "Instrument Status: Laminar aperture flow verified. No technical flags.";
+        flagBanner.className = "text-xs text-emerald-700 font-medium mt-0.5";
+        statusBadge.textContent = "CALIBRATED";
+        statusBadge.className = "text-xs px-2.5 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-800";
+      } else {
+        flagBanner.textContent = flags.join(" | ");
+        flagBanner.className = "text-xs text-amber-700 font-semibold mt-0.5";
+        statusBadge.textContent = "FLAGGED";
+        statusBadge.className = "text-xs px-2.5 py-0.5 rounded-full font-semibold bg-amber-100 text-amber-800";
+      }
+
+      document.getElementById('smear-morphology-tag').textContent = base.morphology;
+      document.getElementById('diagnostic-impression').textContent = base.impression;
+
+      renderCBCTable(currentComputedResult);
+      renderHistograms(currentComputedResult);
+      drawPeripheralSmear(document.getElementById('smear-canvas'), currentComputedResult);
+      initCoulterParticles(currentComputedResult);
+
+      if (autoLog) {
+        autoRecordToLog(currentComputedResult);
+      }
+    }
+
+    function autoRecordToLog(result) {
+      observationLog.unshift({ ...result });
+      const tbody = document.getElementById('observation-log-body');
+      tbody.innerHTML = observationLog.map((item, idx) => {
+        const runNum = observationLog.length - idx;
+        return `
+          <tr class="${idx === 0 ? 'bg-rose-50/60 font-semibold' : ''}">
+            <td class="p-2 font-bold text-[#a4123f]">#${runNum}</td>
+            <td class="p-2 font-sans font-medium text-slate-800">${item.sampleName}</td>
+            <td class="p-2">${item.rbc.toFixed(2)}</td>
+            <td class="p-2">${item.hb.toFixed(1)}</td>
+            <td class="p-2">${item.hct.toFixed(1)}</td>
+            <td class="p-2">${item.mcv.toFixed(1)}</td>
+            <td class="p-2">${item.wbc.toFixed(2)}</td>
+            <td class="p-2">${Math.round(item.plt)}</td>
+          </tr>
+        `;
+      }).join('');
+      document.getElementById('log-count-badge').textContent = 
+        `${observationLog.length} ${observationLog.length === 1 ? 'Run' : 'Runs'} Auto-Logged`;
+    }
+
+    // ==================== INTERACTIVE PERIPHERAL SMEAR CELL INSPECTOR ====================
+    function drawPeripheralSmear(targetCanvas, r) {
+      const ctx = targetCanvas.getContext('2d');
+      ctx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+      smearCellCoords = []; // Reset clickable zones
+
+      ctx.fillStyle = '#fff1f2';
+      ctx.fillRect(0, 0, targetCanvas.width, targetCanvas.height);
+
+      const rbcCount = Math.min(85, Math.round(r.rbc * 11));
+      const baseRadius = (r.mcv / 88.5) * 9.5;
+      const pallorRatio = Math.max(0.18, Math.min(0.68, (37 - r.mchc) / 10));
+
+      for (let i = 0; i < rbcCount; i++) {
+        const x = 18 + (i * 47) % (targetCanvas.width - 36) + (Math.sin(i * 3) * 8);
+        const y = 18 + (Math.floor((i * 47) / (targetCanvas.width - 36)) * 28) % (targetCanvas.height - 32) + (Math.cos(i * 5) * 6);
+        const jitter = ((i % 5) - 2) * (r.rdw / 14) * 0.8;
+        const rad = Math.max(6, baseRadius + jitter);
+
+        ctx.beginPath();
+        ctx.arc(x, y, rad, 0, Math.PI * 2);
+        ctx.fillStyle = r.mchc < 31.5 ? '#fda4af' : '#e11d48';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(x, y, rad * pallorRatio, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff1f2';
+        ctx.fill();
+
+        smearCellCoords.push({
+          x, y, radius: rad, type: 'rbc',
+          desc: r.mcv < 80 ? 'Microcytic RBC (Small volume, <80 fL, iron deficiency hallmark)' : r.mcv > 100 ? 'Macrocytic RBC / Ovalocyte (>100 fL, B12/Folate deficiency)' : 'Normocytic Normochromic RBC (Normal volume 80-100 fL)'
+        });
+      }
+
+      const pltDots = Math.min(45, Math.max(3, Math.round(r.plt / 12)));
+      for (let p = 0; p < pltDots; p++) {
+        const px = (p * 83 + 25) % (targetCanvas.width - 20);
+        const py = (p * 59 + 15) % (targetCanvas.height - 20);
+        ctx.beginPath();
+        ctx.arc(px, py, 2.8, 0, Math.PI * 2);
+        ctx.fillStyle = '#7e22ce';
+        ctx.fill();
+
+        smearCellCoords.push({
+          x: px, y: py, radius: 5, type: 'plt',
+          desc: r.plt < 100 ? 'Thrombocyte / Platelet (Severe Thrombocytopenia <100k)' : 'Normal Platelet (Thrombocyte, 150-400k / µL)'
+        });
+      }
+
+      const wbcCount = Math.min(8, Math.max(1, Math.round(r.wbc / 3.5)));
+      for (let w = 0; w < wbcCount; w++) {
+        const wx = 55 + (w * 95) % (targetCanvas.width - 90);
+        const wy = 45 + (w * 65) % (targetCanvas.height - 80);
+
+        ctx.beginPath();
+        ctx.arc(wx, wy, 14, 0, Math.PI * 2);
+        ctx.fillStyle = '#e0e7ff';
+        ctx.fill();
+        ctx.strokeStyle = '#818cf8';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.fillStyle = '#312e81';
+        let wbcName = 'Segmented Neutrophil (Granulocyte, primary phagocyte)';
+        if (r.lymPct > 45 && w % 2 === 0) {
+          ctx.beginPath();
+          ctx.arc(wx, wy, 10.5, 0, Math.PI * 2);
+          ctx.fill();
+          wbcName = 'Small Lymphocyte (Adaptive immunity, dense round nucleus)';
+        } else {
+          const lobes = r.mcv > 105 ? 5 : 3;
+          for (let l = 0; l < lobes; l++) {
+            const angle = (l / lobes) * Math.PI * 2;
+            ctx.beginPath();
+            ctx.arc(wx + Math.cos(angle) * 5, wy + Math.sin(angle) * 5, 4.2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          if (r.mcv > 105) wbcName = 'Hypersegmented Neutrophil (5+ nuclear lobes, hallmark of Megaloblastic Anemia)';
+        }
+
+        smearCellCoords.push({
+          x: wx, y: wy, radius: 14, type: 'wbc',
+          desc: wbcName
+        });
+      }
+    }
+
+    function inspectSmearCell(event) {
+      const canvas = event.target;
+      const rect = canvas.getBoundingClientRect();
+      const clickX = ((event.clientX - rect.left) / canvas.clientWidth) * canvas.width;
+      const clickY = ((event.clientY - rect.top) / canvas.clientHeight) * canvas.height;
+
+      // Find closest cell to click
+      let closest = null;
+      let minDist = 999;
+      smearCellCoords.forEach(cell => {
+        const dist = Math.hypot(cell.x - clickX, cell.y - clickY);
+        if (dist < minDist && dist <= cell.radius + 6) {
+          minDist = dist;
+          closest = cell;
+        }
+      });
+
+      const inspector = document.getElementById('inspector-text');
+      if (closest) {
+        inspector.innerHTML = `<strong class="text-pink-300">[${closest.type.toUpperCase()} Selected]</strong> ${closest.desc}`;
+      } else {
+        inspector.textContent = "No specific cell targeted. Click directly on any red blood cell, violet platelet dot, or white blood cell nucleus.";
+      }
+    }
+
+    // ==================== INTERACTIVE PLOTLY HISTOGRAMS ====================
+    function renderHistograms(r) {
+      const xRBC = [];
+      const yRBC = [];
+      const yPLT = [];
+      const rbcSigma = (r.rdw / 100.0) * r.mcv;
+
+      for (let v = 2; v <= 220; v += 2) {
+        xRBC.push(v);
+        yPLT.push(gaussian(v, 10, 4.5, (r.plt / 250) * 35));
+        yRBC.push(v >= 28 ? gaussian(v, r.mcv, rbcSigma, r.rbc * 20) : 0);
+      }
+
+      const rbcTraces = [
+        {
+          x: xRBC, y: yPLT,
+          name: 'Platelets (2–30 fL)',
+          type: 'scatter', mode: 'lines',
+          fill: 'tozeroy',
+          line: { color: '#f59e0b', width: 2 },
+          hovertemplate: 'Volume: %{x} fL<br>PLT Signal: %{y:.1f}<extra>Platelet Channel</extra>'
+        },
+        {
+          x: xRBC, y: yRBC,
+          name: 'Erythrocytes (RBC)',
+          type: 'scatter', mode: 'lines',
+          fill: 'tozeroy',
+          line: { color: '#dc2626', width: 2.5 },
+          hovertemplate: 'Volume: %{x} fL<br>RBC Freq: %{y:.1f}<extra>Erythrocyte Channel</extra>'
+        }
+      ];
+
+      const rbcLayout = {
+        margin: { t: 15, r: 15, b: 35, l: 40 },
+        xaxis: { title: 'Cell Volume (fL)', range: [0, 220] },
+        yaxis: { title: 'Frequency' },
+        legend: { orientation: 'h', y: 1.18, font: { size: 10 } },
+        hovermode: 'closest',
+        shapes: [{
+          type: 'rect', x0: 80, x1: 100, y0: 0, y1: 1, yref: 'paper',
+          fillcolor: 'rgba(16, 185, 129, 0.12)', line: { width: 1, dash: 'dot', color: '#059669' }
+        }]
+      };
+
+      Plotly.react('rbc-plot', rbcTraces, rbcLayout, { displayModeBar: false, responsive: true });
+
+      // Add interactive click event to RBC plot
+      document.getElementById('rbc-plot').on('plotly_click', function(data) {
+        const vol = Math.round(data.points[0].x);
+        let category = "Normocytic (80-100 fL)";
+        if (vol < 80) category = "Microcytic (<80 fL - Iron Deficiency / Thalassemia)";
+        else if (vol > 100) category = "Macrocytic (>100 fL - Megaloblastic / B12 Deficiency)";
+        document.getElementById('rbc-insight').innerHTML = `<strong>Interactive Bin Selected:</strong> Volume channel <strong>${vol} fL</strong> falls into the <strong>${category}</strong> window. Current patient MCV is <strong>${r.mcv.toFixed(1)} fL</strong>.`;
+      });
+
+      const xWBC = [];
+      const yWBC = [];
+      const ghostPeak = r.lyse < 0.6 ? (0.6 - r.lyse) * 140 : 0;
+
+      for (let v = 30; v <= 400; v += 4) {
+        xWBC.push(v);
+        const lym = gaussian(v, 62, 14, (r.wbc * r.lymPct) / 10);
+        const mid = gaussian(v, 122, 18, (r.wbc * r.midPct) / 10);
+        const gran = gaussian(v, 245, 45, (r.wbc * r.granPct) / 10);
+        const ghost = gaussian(v, 38, 8, ghostPeak);
+        yWBC.push(lym + mid + gran + ghost);
+      }
+
+      const wbcTrace = [{
+        x: xWBC, y: yWBC,
+        name: 'WBC Volume Distribution',
+        type: 'scatter', mode: 'lines',
+        fill: 'tozeroy',
+        line: { color: '#4f46e5', width: 2.5 },
+        hovertemplate: 'Volume: %{x} fL<br>Count: %{y:.1f}<extra>3-Part WBC</extra>'
+      }];
+
+      const wbcLayout = {
+        margin: { t: 15, r: 15, b: 35, l: 40 },
+        xaxis: { title: 'Leukocyte Volume (fL)', range: [30, 400] },
+        yaxis: { title: 'Count' },
+        hovermode: 'closest',
+        shapes: [
+          { type: 'line', x0: 90, x1: 90, y0: 0, y1: 1, yref: 'paper', line: { color: '#64748b', width: 1.5, dash: 'dash' } },
+          { type: 'line', x0: 160, x1: 160, y0: 0, y1: 1, yref: 'paper', line: { color: '#64748b', width: 1.5, dash: 'dash' } }
+        ],
+        annotations: [
+          { x: 62, y: 0.92, yref: 'paper', text: 'LYM', showarrow: false, font: { size: 10, color: '#475569' } },
+          { x: 125, y: 0.92, yref: 'paper', text: 'MID', showarrow: false, font: { size: 10, color: '#475569' } },
+          { x: 260, y: 0.92, yref: 'paper', text: 'GRAN', showarrow: false, font: { size: 10, color: '#475569' } }
+        ]
+      };
+
+      Plotly.react('wbc-plot', wbcTrace, wbcLayout, { displayModeBar: false, responsive: true });
+
+      document.getElementById('wbc-plot').on('plotly_click', function(data) {
+        const vol = Math.round(data.points[0].x);
+        let sub = "Lymphocytes (35-90 fL)";
+        if (vol >= 90 && vol <= 160) sub = "Mid-Sized Cells / Monocytes (90-160 fL)";
+        else if (vol > 160) sub = "Granulocytes / Neutrophils (160-400 fL)";
+        document.getElementById('wbc-insight').innerHTML = `<strong>Interactive Bin Selected:</strong> Volume channel <strong>${vol} fL</strong> corresponds to <strong>${sub}</strong>.`;
+      });
+    }
+
+    function gaussian(x, mean, sigma, amplitude) {
+      return amplitude * Math.exp(-0.5 * Math.pow((x - mean) / sigma, 2));
+    }
+
+    // Coulter Scope Animation
+    function initCoulterParticles(r) {
+      particles = [];
+      const count = Math.min(35, Math.max(12, Math.round(r.rbc * 5)));
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * 160,
+          y: 25 + Math.random() * 160,
+          size: (r.mcv / 88.5) * 4.5 + (Math.random() - 0.5) * 1.5,
+          type: Math.random() < 0.12 ? 'wbc' : 'rbc',
+          speed: 1.2 + Math.random() * 0.9
+        });
+      }
+    }
+
+    function animateCoulterScope() {
+      const canvas = document.getElementById('coulter-canvas');
+      if (canvas && currentComputedResult) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(0, 0, 185, canvas.height);
+
+        ctx.fillStyle = '#475569';
+        ctx.fillRect(90, 0, 10, 82);
+        ctx.fillRect(90, 128, 10, canvas.height - 128);
+
+        if (currentComputedResult.orificeState === 'clogged') {
+          ctx.fillStyle = '#eab308';
+          ctx.beginPath();
+          ctx.arc(95, 90, 7, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+        ctx.beginPath();
+        ctx.moveTo(95, 82);
+        ctx.lineTo(95, 128);
+        ctx.stroke();
+
+        let pulseTriggered = 0;
+
+        particles.forEach(p => {
+          if (p.x < 92) {
+            p.x += p.speed;
+            p.y += (105 - p.y) * 0.04;
+          } else if (p.x >= 92 && p.x <= 98) {
+            p.x += p.speed * 1.6;
+            pulseTriggered = p.type === 'wbc' ? p.size * 18 : p.size * 11 * (currentComputedResult.current / 100);
+          } else {
+            p.x += p.speed;
+            p.y += (Math.random() - 0.5) * 2;
+          }
+
+          if (p.x > 180) {
+            p.x = 5;
+            p.y = 20 + Math.random() * 170;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.type === 'wbc' ? p.size * 1.35 : p.size, 0, Math.PI * 2);
+          ctx.fillStyle = p.type === 'wbc' ? '#818cf8' : '#ef4444';
+          ctx.fill();
+        });
+
+        pulseHistory.push(pulseTriggered + (Math.random() * 3));
+        if (pulseHistory.length > 175) pulseHistory.shift();
+
+        ctx.strokeStyle = '#1e293b';
+        for (let gy = 30; gy < canvas.height; gy += 35) {
+          ctx.beginPath();
+          ctx.moveTo(195, gy);
+          ctx.lineTo(375, gy);
+          ctx.stroke();
+        }
+
+        ctx.strokeStyle = '#10b981';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        for (let i = 0; i < pulseHistory.length; i++) {
+          const px = 195 + i;
+          const py = 185 - Math.min(165, pulseHistory[i]);
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
+      requestAnimationFrame(animateCoulterScope);
+    }
+
+    // Index Verification & Export Functions
+    function verifyIndices() {
+      const userMCV = parseFloat(document.getElementById('calc-mcv').value);
+      const userMCHC = parseFloat(document.getElementById('calc-mchc').value);
+      const box = document.getElementById('calc-feedback');
+      box.classList.remove('hidden');
+
+      if (isNaN(userMCV) || isNaN(userMCHC)) {
+        box.textContent = "Please enter numerical values for both MCV and MCHC.";
+        box.className = "text-xs font-medium p-2.5 rounded-lg bg-amber-50 text-amber-800 border border-amber-200";
+        return;
+      }
+
+      const mcvDiff = Math.abs(userMCV - currentComputedResult.mcv);
+      const mchcDiff = Math.abs(userMCHC - currentComputedResult.mchc);
+
+      if (mcvDiff <= 1.0 && mchcDiff <= 1.0) {
+        box.innerHTML = `&check; Verified! MCV = (HCT &times; 10)/RBC = <strong>${currentComputedResult.mcv.toFixed(1)} fL</strong> and MCHC = (Hb &times; 100)/HCT = <strong>${currentComputedResult.mchc.toFixed(1)} g/dL</strong>.`;
+        box.className = "text-xs font-medium p-2.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200";
+        advanceProcedureStep(5);
+      } else {
+        box.innerHTML = `Recalculate using current CBC table: MCV = (${currentComputedResult.hct.toFixed(1)} &times; 10) / ${currentComputedResult.rbc.toFixed(2)} = <strong>${currentComputedResult.mcv.toFixed(1)} fL</strong>; MCHC = (${currentComputedResult.hb.toFixed(1)} &times; 100) / ${currentComputedResult.hct.toFixed(1)} = <strong>${currentComputedResult.mchc.toFixed(1)} g/dL</strong>.`;
+        box.className = "text-xs font-medium p-2.5 rounded-lg bg-red-50 text-red-800 border border-red-200";
+      }
+    }
+
+    function autoFillIndices() {
+      if (!currentComputedResult) return;
+      document.getElementById('calc-mcv').value = currentComputedResult.mcv.toFixed(1);
+      document.getElementById('calc-mchc').value = currentComputedResult.mchc.toFixed(1);
+      verifyIndices();
+    }
+
+    function downloadResultsCSV() {
+      if (observationLog.length === 0) return;
+      const headers = [
+        "Run_No", "Time", "Specimen_Profile", "RBC_10^6_uL", "Hb_g_dL", "HCT_Pct",
+        "MCV_fL", "MCH_pg", "MCHC_g_dL", "RDW_CV_Pct", "WBC_10^3_uL",
+        "LYM_Pct", "MID_Pct", "GRAN_Pct", "PLT_10^3_uL", "Absorbance_540nm_OD",
+        "Aperture_Current_uA", "Lyse_Reagent_mL", "Orifice_State", "Diagnostic_Impression"
+      ];
+      const rows = observationLog.slice().reverse().map((r, i) => [
+        i + 1, `"${r.timestamp}"`, `"${r.sampleName}"`, r.rbc.toFixed(2), r.hb.toFixed(1),
+        r.hct.toFixed(1), r.mcv.toFixed(1), r.mch.toFixed(1), r.mchc.toFixed(1), r.rdw.toFixed(1),
+        r.wbc.toFixed(2), r.lymPct.toFixed(1), r.midPct.toFixed(1), r.granPct.toFixed(1),
+        Math.round(r.plt), r.absorbance, r.current, r.lyse.toFixed(1), `"${r.orificeState}"`, `"${r.impression}"`
+      ]);
+      const csvContent = [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Hematology_CBC_Results_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadCurrentReportTXT() {
+      if (!currentComputedResult) return;
+      const r = currentComputedResult;
+      const reportText = [
+        "====================================================================",
+        "          AUTOMATED HEMATOLOGY & BLOOD ANALYSIS REPORT              ",
+        "====================================================================",
+        `Timestamp             : ${r.timestamp}`,
+        `Patient Specimen      : ${r.sampleName}`,
+        `Peripheral Smear      : ${r.morphology}`,
+        `Diagnostic Impression : ${r.impression}`,
+        `Instrument Settings   : Current = ${r.current} uA | Lyse = ${r.lyse.toFixed(1)} mL | Orifice = ${r.orificeState}`,
+        `Spectrophotometer     : 540 nm Absorbance = ${r.absorbance} OD (%T = ${r.transmittance}%)`,
+        `Technical Flags       : ${r.flags}`,
+        "--------------------------------------------------------------------",
+        "PARAMETER                          RESULT        UNITS       REF INTERVAL",
+        "--------------------------------------------------------------------",
+        `White Blood Cells (WBC)            ${r.wbc.toFixed(2).padEnd(13)} 10^3/uL     4.00 - 11.00`,
+        `Red Blood Cells (RBC)              ${r.rbc.toFixed(2).padEnd(13)} 10^6/uL     4.20 - 5.80`,
+        `Hemoglobin (Hb @ 540nm)            ${r.hb.toFixed(1).padEnd(13)} g/dL        12.5 - 17.0`,
+        `Hematocrit (HCT / PCV)             ${r.hct.toFixed(1).padEnd(13)} %           37.0 - 50.0`,
+        `Mean Corpuscular Volume (MCV)      ${r.mcv.toFixed(1).padEnd(13)} fL          80.0 - 100.0`,
+        `Mean Corpuscular Hb (MCH)          ${r.mch.toFixed(1).padEnd(13)} pg          27.0 - 32.0`,
+        `Mean Corpuscular Hb Conc. (MCHC)   ${r.mchc.toFixed(1).padEnd(13)} g/dL        32.0 - 36.0`,
+        `RBC Distribution Width (RDW-CV)    ${r.rdw.toFixed(1).padEnd(13)} %           11.5 - 14.5`,
+        `Platelet Count (PLT)               ${String(Math.round(r.plt)).padEnd(13)} 10^3/uL     150 - 400`,
+        `Lymphocytes (LYM %)                ${r.lymPct.toFixed(1).padEnd(13)} %           20.0 - 40.0`,
+        `Mid-Sized Cells (MID %)            ${r.midPct.toFixed(1).padEnd(13)} %           3.0 - 10.0`,
+        `Granulocytes (GRAN %)              ${r.granPct.toFixed(1).padEnd(13)} %           50.0 - 70.0`,
+        "===================================================================="
+      ].join("\n");
+      const blob = new Blob([reportText], { type: "text/plain;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `CBC_Lab_Report_${r.sampleName.replace(/\s+/g, '_')}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function renderCBCTable(r) {
+      const rows = [
+        { name: "White Blood Cells (WBC)", val: r.wbc.toFixed(2), unit: "10³ / µL", min: 4.0, max: 11.0, ref: "4.00 – 11.00" },
+        { name: "Red Blood Cells (RBC)", val: r.rbc.toFixed(2), unit: "10⁶ / µL", min: 4.2, max: 5.8, ref: "4.20 – 5.80" },
+        { name: "Hemoglobin (Hb @ 540nm)", val: r.hb.toFixed(1), unit: "g / dL", min: 12.5, max: 17.0, ref: "12.5 – 17.0" },
+        { name: "Hematocrit (HCT / PCV)", val: r.hct.toFixed(1), unit: "%", min: 37.0, max: 50.0, ref: "37.0 – 50.0" },
+        { name: "Mean Corpuscular Volume (MCV)", val: r.mcv.toFixed(1), unit: "fL", min: 80.0, max: 100.0, ref: "80.0 – 100.0" },
+        { name: "Mean Corpuscular Hb (MCH)", val: r.mch.toFixed(1), unit: "pg", min: 27.0, max: 32.0, ref: "27.0 – 32.0" },
+        { name: "Mean Corpuscular Hb Conc. (MCHC)", val: r.mchc.toFixed(1), unit: "g / dL", min: 32.0, max: 36.0, ref: "32.0 – 36.0" },
+        { name: "RBC Distribution Width (RDW-CV)", val: r.rdw.toFixed(1), unit: "%", min: 11.5, max: 14.5, ref: "11.5 – 14.5" },
+        { name: "Platelet Count (PLT)", val: Math.round(r.plt), unit: "10³ / µL", min: 150, max: 400, ref: "150 – 400" },
+        { name: "Lymphocytes (LYM %)", val: r.lymPct.toFixed(1), unit: "%", min: 20.0, max: 40.0, ref: "20.0 – 40.0" },
+        { name: "Mid-Sized Cells (MID %)", val: r.midPct.toFixed(1), unit: "%", min: 3.0, max: 10.0, ref: "3.0 – 10.0" },
+        { name: "Granulocytes (GRAN %)", val: r.granPct.toFixed(1), unit: "%", min: 50.0, max: 70.0, ref: "50.0 – 70.0" }
+      ];
+
+      const tbody = document.getElementById('cbc-table-body');
+      tbody.innerHTML = rows.map(item => {
+        const num = parseFloat(item.val);
+        let flag = '<span class="text-emerald-600 font-semibold">NORM</span>';
+        let rowBg = "";
+        if (num < item.min) {
+          flag = '<span class="px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">LOW &darr;</span>';
+          rowBg = "bg-blue-50/40";
+        } else if (num > item.max) {
+          flag = '<span class="px-1.5 py-0.5 rounded bg-red-100 text-red-800 font-bold">HIGH &uarr;</span>';
+          rowBg = "bg-red-50/40";
+        }
+        return `
+          <tr class="${rowBg}">
+            <td class="py-2 px-3 font-sans font-medium text-slate-800">${item.name}</td>
+            <td class="py-2 px-3 font-bold text-slate-900">${item.val}</td>
+            <td class="py-2 px-3 text-xs">${flag}</td>
+            <td class="py-2 px-3 text-slate-500">${item.unit}</td>
+            <td class="py-2 px-3 text-slate-500">${item.ref}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const key = document.getElementById('sample-select').value;
+      document.getElementById('sample-clinical-note').textContent = BLOOD_SAMPLES[key].clinicalNote;
+      runAnalyzer(true);
+      requestAnimationFrame(animateCoulterScope);
+    });
+  </script>
 </body>
 </html>
