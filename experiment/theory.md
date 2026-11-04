@@ -29,3 +29,12 @@ White blood cells are also known as leukocytes and are part of our immune system
 Platelets are also called Thrombocytes. Unlike red and white blood cells, platelets are not actually cells but non-nucleated small cell fragments with 2-4 µm in diameter and look like small plates in their non-active form. Platelets promote the blood clotting process by gathering at the injured blood vessel, sticking to its surface, and forming a platform that supports blood clot formation. Platelets have a short lifespan of about 10 days. 
 
 The different types of blood cells are shown in Figure 1.
+
+
+<p align="center">
+<img src="images/p3.png" title="Figure 1: Types of blood cells" />
+Figure 1: Types of blood cells
+
+(image source  https://www.cancer.gov/publications/dictionaries/cancer-terms/def/red-blood-cell) 
+</p>
+ 
