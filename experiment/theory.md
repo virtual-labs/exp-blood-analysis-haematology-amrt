@@ -33,9 +33,11 @@ The different types of blood cells are shown in Figure 1.
 
 <p align="center">
 <img src="images/p3.png" title="Figure 1: Types of blood cells" />
-Figure 1: Types of blood cells
+<br />
+  <i>Figure 1: Types of blood cells. 
 
-(image source  https://www.cancer.gov/publications/dictionaries/cancer-terms/def/red-blood-cell) 
+(image source  https://www.cancer.gov/publications/dictionaries/cancer-terms/def/red-blood-cell)
+</i>
 </p>
 
 &nbsp;
