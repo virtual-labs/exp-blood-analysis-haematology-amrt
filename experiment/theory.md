@@ -37,4 +37,23 @@ Figure 1: Types of blood cells
 
 (image source  https://www.cancer.gov/publications/dictionaries/cancer-terms/def/red-blood-cell) 
 </p>
- 
+
+&nbsp;
+
+#### Staining of blood cells
+Blood staining is a fundamental laboratory procedure used in haematology to colour and differentiate the distinct components of a blood smear. The classic staining procedure is Wright or Wright-Giemsa Stain, which belongs to the Romanowsky stain. The purpose is to examine the peripheral blood smear and to identify different blood cells. The dye is a combination of an acidic dye, eosin Y (red colour), oxidised methylene blue and a basic dye, Azure B (blue colour) and a methanol solvent. The methanol component helps to fix the blood cells onto the glass slide. The addition of buffer solution activates the dyes and produces thiazine-eosin complexes. After staining, the acidic components attract blue or purple dyes, and basic components attract acidic red or pink dyes. 
+
+##### Appearance of blood cells after staining: 
+* **Red blood cells (RBCs):** Red to pink
+* **Nucleus of WBCs:** Dark blue or purple
+* **Platelets:** Central red-purple granules with a light blue halo
+* **Neutrophils:** Pale pink cytoplasm, lilac granules
+* **Eosinophils:** Pale pink to light blue, Orange-red granules
+* **Basophils:** Pale pink, Dark blue-purple granules
+* **Lymphocytes:** Light blue cytoplasm, deep violet nucleus
+* **Monocytes:** Gray-blue cytoplasm, bluish-purple nucleus
+
+&nbsp;
+
+#### Introduction to Haematology Testing
+Haematology is a branch of science that studies blood, its components, and the blood-forming organs. Haematological investigations are important diagnostic tools in clinical laboratories for diagnosing and evaluating various health conditions, including anaemia, blood infections, bleeding-related disorders, and blood-related cancers. One of the routinely suggested haematological investigations by healthcare professionals is the Complete Blood Count (CBC), which provides valuable information about the overall health status and composition of blood of an individual. It measures the levels and characteristics of the major cellular components of blood, including red blood cells (RBCs), white blood cells (WBCs), and platelets. The test is performed using an automated haematology analyser, that examines a blood sample collected in an anticoagulant-containing tube, commonly containing EDTA (Ethylenediaminetetraacetic acid). 
