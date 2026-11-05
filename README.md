@@ -6,15 +6,32 @@
 <b> Lab | <b> Advanced Biomedical Diagnostics & Physiology Laboratory
 <b> Experiment|     <b> Blood Analysis & Haematology Testing
 
+&nbsp;
+
 ### About the Experiment 
 
-Fill a brief description of this experiment here
+The Blood Analysis & Hematology Testing virtual lab provides an interactive learning environment designed to familiarize students and practitioners with the clinical principles of hematological diagnostic procedures. The experiment centers on the Complete Blood Count (CBC), a foundational diagnostic tool used to assess general health, detect infections, and diagnose hematological disorders.
 
-<b>Name of Developer | <b> Dr. Shyam Diwakar 
+Through this module, learners explore:
+* **Cellular Identification & Staining:** The microscopic identification and morphological evaluation of distinct blood cell lineages using differential staining methods.
+
+* **Instrumentation & Automation:** The operational mechanisms and analytical principles underlying automated hematology analyzers deployed in clinical laboratories.
+
+* **Red-Cell Indices:** The calculation and diagnostic interpretation of key erythrocyte indices, including Mean Corpuscular Volume (MCV), Mean Corpuscular Hemoglobin (MCH), and Mean Corpuscular Hemoglobin Concentration (MCHC).
+
+* **Clinical Data Evaluation:** The analysis of laboratory outputs to differentiate normal physiological baselines from pathological blood profiles, specifically identifying and categorizing various forms of anemia.
+
+&nbsp;
+
+
+<b>Name of PI | <b> Dr. Shyam Diwakar 
 :--|:--|
 <b> Institute | <b>  Amrita Vishwa Vidyapeetham
 <b> Email id|     <b>  shyam@amrita.edu
 <b> Department |  Amrita Mind Brain Center  
+
+&nbsp;
+
 
 ### Contributors List
 
