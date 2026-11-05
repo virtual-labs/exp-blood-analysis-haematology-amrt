@@ -16,7 +16,7 @@ Formed elements are living cells that are composed of about 45% of total blood v
 RBCs are also known as erythrocytes. RBCs are biconcave discs, and their shape facilitates both volume and surface area.  RBCs are biconcave discs and their shape facilitates both volume and surface area for gas exchange. RBCs constitute about 40%-45% of blood volume. It is generated from bone marrow and have a lifespan of 120 days in the body. They have no nucleus and cytoplasmic organelles. It contains a red coloured protein called haemoglobin and functions in gas transport, mainly O2, and carries some CO2. It is responsible for the transport of O2 from lungs to tissues and CO2 from tissues to the lungs. RBCs have a diameter of 7.5 µm, a thickness of 2.6 µm at the rim, and 0.8 µm thickness in the center. The process of RBC development from stem cells takes about 7 days and is called erythropoiesis. 
 
 Haemoglobin is made up of large and complex molecules such as heme and globin. Heme is made up of iron and porphyrin. Globin is a protein with 4 polypeptide chains (2 alpha and 2 beta). Each haemoglobin (Hb) molecule contains four heme groups that are attached to globin protein chains. Each heme group binds with one molecule of O2. Therefore, one haemoglobin molecule can carry four oxygen molecules.  Each RBC carries about 280 million Hb molecules and can carry over a billion O2 molecules. Hb with O2 is called oxyhaemoglobin, and Hb without O2 is called deoxyhaemoglobin. The amount of haemoglobin in whole blood is expressed in grams per deciliter (g/dl). The normal Hb level for males is 14 to 18 g/dl; that for females is 12 to 16 g/dl.
-Cells (WBCs), and Platelets.
+
 
 &nbsp;
 
