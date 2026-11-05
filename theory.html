@@ -1,0 +1,518 @@
+<!DOCTYPE html><html lang="en"><head>
+      <!--Google Tag Manager-->
+      <script class="gtm">
+        var dataLayer = [{
+        'labName': 'Virtual Lab',
+        'discipline': 'Test',
+        'college': 'AMRT',
+        'phase': 'Testing',
+        'expName': 'BLOOD ANALYSIS &amp; HEMATOLOGY TESTING',
+        'expShortName': 'blood-analysis-haematology'
+        }];
+    
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-5NMQ9NQ');
+      </script>
+      <!--End Google Tag Manager-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description">
+    <meta content="" name="author">
+    
+    	<meta name="experiment-short-name" content="blood-analysis-haematology">
+    	<meta name="developer-institute" content="AMRT">
+    	<meta name="learning-unit" content="BLOOD ANALYSIS &amp; HEMATOLOGY TESTING">
+    	<meta name="task-name" content="Theory">
+    
+    <!-- For iPhone -->
+    <meta name="msapplication-TileColor" content="#4076e0">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#4076e0">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#4076e0">
+    <title>Virtual Labs</title>
+    <link rel="shortcut icon" href="./assets/images/favicon.ico">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css" integrity="sha512-Oy18vBnbSJkXTndr2n6lDMO5NN31UljR8e/ICzVPrGpSud4Gkckb8yUpqhKuUNoE+o9gAb4O/rAxxw1ojyUVzg==" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&amp;family=Raleway&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/github-markdown.min.css">
+    <link rel="stylesheet" href="./assets/css/vlabs-style.css">
+    <link rel="stylesheet" href="./assets/css/toast.css">
+    <link rel="stylesheet" href="./assets/katex_assets/katex.min.css">
+    
+    <script src="./assets/js/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      h1 {
+      font-size: 1.8rem;
+      }
+      h2 {
+      font-size: 1.4rem;
+      }
+      h3 {
+      font-size: 1.2rem;
+      }
+
+      h2, h3 {
+      font-weight: 800;
+      }
+    </style>
+    
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"></head>
+  <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
+      <!--Google Tag Manager (noscript)-->
+      <noscript class="gtm">
+        <iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-5NMQ9NQ" style="display:none;visibility:hidden" width="0">
+        </iframe>
+      </noscript>
+      <!--End Google Tag Manager (noscript)-->
+  
+      <header class="vlabs-header sticky-top bg-white">
+        <nav class="p-0 navbar navbar-light d-flex align-items-stretch">
+          
+          <button class="navbar-toggler px-4" type="button" onclick="toggle()">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <div class="d-flex justify-content-center">        
+            <a href="https://vlab.co.in" class="navbar-brand">
+              <img src="./assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+            </a>
+          </div>
+          
+          <div id="headerNavbar" class="d-none border-top flex-grow-1 d-lg-flex align-items-center justify-content-end">
+            <div class="svc-rating-display">
+                <rating-display spreadsheetid="1x12nhpp0QvnsA6x-O1sV4IA9SAbfVsq_wiexWkutOmU" sheetname="Experiment-Database" columnname="Experiment Short Name" columnvalue="blood-analysis-haematology" imagesdirectory="/plugins/svc-rating/images/">
+                </rating-display>
+            </div>      <div class="svc-rating-submit">
+                <rating-submit title="Rate" this="" experiment="">
+                </rating-submit>
+            </div>      <bug-report id="bug-report" title="[BUG REPORT] BLOOD ANALYSIS &amp; HEMATOLOGY TESTING" page-type="text" context-info="{&quot;organisation&quot;:&quot;Virtual Labs&quot;,&quot;developer_institute&quot;:&quot;AMRT&quot;,&quot;expname&quot;:&quot;BLOOD ANALYSIS &amp; HEMATOLOGY TESTING&quot;,&quot;labname&quot;:&quot;Virtual Lab&quot;,&quot;phase&quot;:&quot;Testing&quot;}" checkbox-json="{&quot;text&quot;:[&quot;Insufficient Content&quot;],&quot;video&quot;:[&quot;Insufficient Content&quot;],&quot;assesment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;assessment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;simulation&quot;:[&quot;Simulation Not Working&quot;,&quot;Incorrect Results/Observations&quot;,&quot;Insufficient/Incorrect Instructions&quot;],&quot;DEFAULT&quot;:[&quot;Page Not Loading&quot;,&quot;Content Not Visible&quot;,&quot;Incorrect Content&quot;]}" button_style="border: none; color: #fff; background-color: #288ec8; text-align: center; font-size: 1.05rem; border-radius: 1em;padding: 0.6em 1.2em; margin: 0 10px" position="override" custom_button_class="v-button"></bug-report>
+          </div>
+        </nav>
+      </header>
+      <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
+        <div class="row d-flex justify-content-between">
+          <div class="flex-column">
+          <div class="row py-4 px-4 breadcrumbs">
+          	<div class="title is-4 tools">Tools</div>
+          	<span class="mx-2">
+          		<i aria-hidden="true" class="fa fa-angle-right"></i>
+          	</span>
+          	<a href="performance-report.html" class="my-2 mx-3" target="_blank">
+          		<button class="v-button">Performance Tool</button>
+          	</a>
+          	<a href="validator-report.html" class="my-2 mx-3" target="_blank">
+          		<button class="v-button">Validation Tool</button>
+          	</a>
+          </div>
+          </div>
+        </div>
+        <div class="row flex-grow-1 d-flex flex-nowrap flex-column flex-lg-row">
+          <div class="modal fade popupmenu" id="popupMenu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">
+                              <a href="https://vlab.co.in" class="navbar-brand">
+                                  <img src="./assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+                              </a>
+                          </h5>
+                          <button type="button" class="btn-close align-self-center" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body nav-menu">
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="index.html" class="p-2 ">
+                                      Aim
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="theory.html" class="p-2  current-item ">
+                                      Theory
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="pretest.html" class="p-2 ">
+                                      Pretest
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="procedure.html" class="p-2 ">
+                                      Procedure
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="simulation.html" class="p-2 ">
+                                      Simulation
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="posttest.html" class="p-2 ">
+                                      Posttest
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="references.html" class="p-2 ">
+                                      References
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="contributors.html" class="p-2 ">
+                                      Contributors
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="feedback.html" class="p-2 ">
+                                      Feedback
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="nav flex-column sidebar nav-menu flex-shrink-0 px-lg-4 align-items-center align-items-lg-start hidden d-none d-lg-flex" id="menu">
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="index.html" class="p-2 ">
+                        Aim
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="theory.html" class="p-2  current-item ">
+                        Theory
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="pretest.html" class="p-2 ">
+                        Pretest
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="procedure.html" class="p-2 ">
+                        Procedure
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="simulation.html" class="p-2 ">
+                        Simulation
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="posttest.html" class="p-2 ">
+                        Posttest
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="references.html" class="p-2 ">
+                        References
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="contributors.html" class="p-2 ">
+                        Contributors
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="feedback.html" class="p-2 ">
+                        Feedback
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+          </div>          <div class="vlabs-page-content px-5 pb-4 flex-grow-1 markdown-body">
+            <div class="text-center fix-spacing">
+              <h2 id="blood-analysis--hematology-testing">Blood Analysis &amp; Hematology Testing</h2>
+          
+            </div>
+              <h3 id="theory">Theory</h3>
+          <p>Blood is an essential fluid connective tissue that circulates throughout the body, enabling constant communication between tissues and supporting proper body function. The main function of the blood is to maintain intracellular homeostasis by carrying oxygen and nutrients such as glucose, lipids, amino acids and vitamins to the body tissues and removing waste such as nitrates, creatine, and nucleic acids away from the body cells. It also provides intercellular communication in the body by carrying hormones secreted by endocrine glands to the target organs. It also transports immune cells and proteins to fight infections. As a self-repair mechanism, it helps to stop bleeding through the formation of blood clots (clotting cascade).</p>
+          <p>Blood is composed of two fractions: Plasma and Formed Elements.</p>
+          <h4 id="plasma">Plasma</h4>
+          <p>It is the non-living extracellular matrix that composes about 55% of total blood volume. The plasma is constituted of 90-92% water and 7% plasma proteins. The main plasma proteins are albumins and globulins. Albumins constitute 60% of the total plasma protein and function to maintain normal plasma osmotic pressure. They act as a carrier molecule for drugs, steroid hormones, and free fatty acids. Globulins act as immunoglobulins (antibodies) to transport some hormones and mineral salts; for example, transferrin carries the mineral iron. They also function in the inhibition of some proteolytic enzymes and act as clotting factors responsible for blood coagulation. Plasma also contains inorganic salts such as calcium (Ca²⁺), sodium (Na⁺), potassium (K⁺), and phosphate (PO₄³⁻), responsible for maintaining normal body functions such as muscle contraction, transmission of nerve impulses, and maintaining proper fluid balance. Moreover, waste products such as urea, creatinine, and uric acid are transported by blood plasma to the kidneys for removal from the body. 
+          &nbsp;</p>
+          <h4 id="formed-elements">Formed Elements</h4>
+          <p>Formed elements are living cells that are composed of about 45% of total blood volume. The three types of blood cells are Red Blood Cells (RBCs), White Blood Cells (WBCs), and Platelets.</p>
+          <p>&nbsp;</p>
+          <h4 id="red-blood-cells-rbcs">Red Blood Cells (RBCs)</h4>
+          <p>RBCs are also known as erythrocytes. RBCs are biconcave discs, and their shape facilitates both volume and surface area.  RBCs are biconcave discs and their shape facilitates both volume and surface area for gas exchange. RBCs constitute about 40%-45% of blood volume. It is generated from bone marrow and have a lifespan of 120 days in the body. They have no nucleus and cytoplasmic organelles. It contains a red coloured protein called haemoglobin and functions in gas transport, mainly O2, and carries some CO2. It is responsible for the transport of O2 from lungs to tissues and CO2 from tissues to the lungs. RBCs have a diameter of 7.5 µm, a thickness of 2.6 µm at the rim, and 0.8 µm thickness in the center. The process of RBC development from stem cells takes about 7 days and is called erythropoiesis. </p>
+          <p>Haemoglobin is made up of large and complex molecules such as heme and globin. Heme is made up of iron and porphyrin. Globin is a protein with 4 polypeptide chains (2 alpha and 2 beta). Each haemoglobin (Hb) molecule contains four heme groups that are attached to globin protein chains. Each heme group binds with one molecule of O2. Therefore, one haemoglobin molecule can carry four oxygen molecules.  Each RBC carries about 280 million Hb molecules and can carry over a billion O2 molecules. Hb with O2 is called oxyhaemoglobin, and Hb without O2 is called deoxyhaemoglobin. The amount of haemoglobin in whole blood is expressed in grams per deciliter (g/dl). The normal Hb level for males is 14 to 18 g/dl; that for females is 12 to 16 g/dl.</p>
+          <p>&nbsp;</p>
+          <h4 id="white-blood-cells-wbcs">White Blood Cells (WBCs)</h4>
+          <p>White blood cells are also known as leukocytes and are part of our immune system. Leukocytes are the largest blood cells and constitute only about 1% of the blood volume. Like RBCs, they are constantly generated in the bone marrow. They are essential for protection against illness and diseases as they flow through the bloodstream attacks any foreign bodies like viruses and bacteria. Leucocytes are true cells having a nucleus, mitochondria and other cell organelles. Unlike erythrocytes, leucocytes have mobility and can leave the blood and enter the surrounding tissues. They have only a short life span/. They do not contain haemoglobin molecules. There are two main types of WBCs: granulocytes and agranulocytes. Granulocytes contain granules in their cytoplasm; they include neutrophils, eosinophils and basophils. Agranulocytes do not contain granules in their cytoplasm, and they include monocytes and lymphocytes. 60-70% of total WBC represents Neutrophils, 20-30% lymphocytes, 3%, eosinophils, 1% basophils and 5% monocytes. Neutrophils are 12-15 µm in diameter, with a nucleus consisting of 2-5 lobes. They have phagocytic activity against foreign particles and a short half-life of 6-7 hours in blood and 1-4 days in the tissues. Eosinophils have a bilobed nucleus, and the cytoplasm of eosinophils contains large granules that contain a protein called the major basic protein, which has the ability to kill parasitic worms. The number of eosinophil cells in the blood determines the allergic reaction and parasitic infection. Basophils constitute less than 1% of blood leukocytes. They are about 12-15 µm, and the nucleus has S-shaped irregular lobes. The cytoplasm contains very large granules, mainly histamine and heparin, which play an important role in allergies. Lymphocytes are spherical cells with a diameter of 6-8 µm (small lymphocytes) and up to 18 µm (large lymphocytes). The nucleus is large and rounded, with a varying lifespan (from a few days to many years). Lymphocytes are classified into B lymphocytes, T lymphocytes, and Natural Killer cells according to their functions. The major functions are related to immune reactions against foreign macromolecules, invading microorganisms, and cancer cells. Monocytes are the largest of the white blood cells with a horseshoe- or kidney-shaped nucleus. The lifespan in the circulation is a few days, but 60-120 days in the tissues. The monocyte performs phagocytosis and secretes certain substances like interleukins, e.g., interleukin 1 (IL-1) and has important functions in inflammation and immunity. </p>
+          <p>&nbsp;</p>
+          <h4 id="platelets">Platelets</h4>
+          <p>Platelets are also called Thrombocytes. Unlike red and white blood cells, platelets are not actually cells but non-nucleated small cell fragments with 2-4 µm in diameter and look like small plates in their non-active form. Platelets promote the blood clotting process by gathering at the injured blood vessel, sticking to its surface, and forming a platform that supports blood clot formation. Platelets have a short lifespan of about 10 days. </p>
+          <p>The different types of blood cells are shown in Figure 1.</p>
+          <p align="center">
+          <img src="images/p3.png" title="Figure 1: Types of blood cells">
+          <br>
+            <i>Figure 1: Types of blood cells. 
+          
+          </i></p><p><i>(image source  <a href="https://www.cancer.gov/publications/dictionaries/cancer-terms/def/red-blood-cell">https://www.cancer.gov/publications/dictionaries/cancer-terms/def/red-blood-cell</a>)
+          </i></p>
+          <p></p>
+          
+          <p>&nbsp;</p>
+          <h4 id="staining-of-blood-cells">Staining of blood cells</h4>
+          <p>Blood staining is a fundamental laboratory procedure used in haematology to colour and differentiate the distinct components of a blood smear. The classic staining procedure is Wright or Wright-Giemsa Stain, which belongs to the Romanowsky stain. The purpose is to examine the peripheral blood smear and to identify different blood cells. The dye is a combination of an acidic dye, eosin Y (red colour), oxidised methylene blue and a basic dye, Azure B (blue colour) and a methanol solvent. The methanol component helps to fix the blood cells onto the glass slide. The addition of buffer solution activates the dyes and produces thiazine-eosin complexes. After staining, the acidic components attract blue or purple dyes, and basic components attract acidic red or pink dyes. </p>
+          <h5 id="appearance-of-blood-cells-after-staining">Appearance of blood cells after staining:</h5>
+          <ul>
+          <li><strong>Red blood cells (RBCs):</strong> Red to pink</li>
+          <li><strong>Nucleus of WBCs:</strong> Dark blue or purple</li>
+          <li><strong>Platelets:</strong> Central red-purple granules with a light blue halo</li>
+          <li><strong>Neutrophils:</strong> Pale pink cytoplasm, lilac granules</li>
+          <li><strong>Eosinophils:</strong> Pale pink to light blue, Orange-red granules</li>
+          <li><strong>Basophils:</strong> Pale pink, Dark blue-purple granules</li>
+          <li><strong>Lymphocytes:</strong> Light blue cytoplasm, deep violet nucleus</li>
+          <li><strong>Monocytes:</strong> Gray-blue cytoplasm, bluish-purple nucleus</li>
+          </ul>
+          <p>&nbsp;</p>
+          <h4 id="introduction-to-haematology-testing">Introduction to Haematology Testing</h4>
+          <p>Haematology is a branch of science that studies blood, its components, and the blood-forming organs. Haematological investigations are important diagnostic tools in clinical laboratories for diagnosing and evaluating various health conditions, including anaemia, blood infections, bleeding-related disorders, and blood-related cancers. One of the routinely suggested haematological investigations by healthcare professionals is the Complete Blood Count (CBC), which provides valuable information about the overall health status and composition of blood of an individual. It measures the levels and characteristics of the major cellular components of blood, including red blood cells (RBCs), white blood cells (WBCs), and platelets. The test is performed using an automated haematology analyser, that examines a blood sample collected in an anticoagulant-containing tube, commonly containing EDTA (Ethylenediaminetetraacetic acid). </p>
+          <p>&nbsp;</p>
+          <h4 id="working-principles-of-automated-haematology-analysers">Working Principles of Automated Haematology Analysers</h4>
+          <p>The automated haematology analysers employ advanced technologies to count blood cells, measure their size, determine haemoglobin concentration, and differentiate WBCs. The working principles include electrical impedance, optical light scattering, and spectrophotometry.</p>
+          <p>The <strong>electrical impedance</strong>, also known as the Coulter Principle, is the commonly used method for counting and understanding the size of the blood cells by measuring the changes in electrical resistance when cells pass through a tiny opening. The diluted blood sample in an ionic, electrically conductive solution is passed through a small opening called an aperture (orifice). Electrodes are placed on either side of the aperture. An electric current flows continuously between these internal electrodes. Blood cells are non-conductive (poor electrical conductors); when the blood cells pass through the aperture, a voltage pulse or a resistance spike is produced. The count of these spikes gives the total cell count. The height of the magnitude of the generated voltage pulse is directly related to the physical size of the cells. RBCs and WBCs are bigger in size than platelets (Figure 2).</p>
+          <p align="center">
+          <img src="images/p2.png" title="Figure 2. Automated Impedance Haematology Analysers">
+          <br>
+            <i>Figure 2. Automated Impedance Haematology Analysers. 
+          
+          </i></p><p><i>(image source: image source: DeNicola DA. Advances in haematology analysers. Topics in companion animal medicine. 2011 May 1;26(2):52-61.)
+          </i></p>
+          <p></p>
+          
+          <p>&nbsp;</p>
+          <p>The <strong>spectrophotometric principle</strong>, <strong>Beer-Lambert's Law</strong>, is used to measure haemoglobin concentration in blood, where the absorbance of a colored solution is directly proportional to its concentration. To determine the haemoglobin concentration, the first step is RBC lysis and conversion, where the blood sample is mixed with Drabkin’s solution, a dilution fluid containing potassium ferricyanide and potassium cyanide.  Next is the oxidation step, where the potassium ferricyanide oxidises ferrous iron in the haemoglobin to ferric iron and converts all forms of haemoglobin to methaemoglobin. In the cyanide binding stage, the potassium cyanide binds with methaemoglobin to form cyanmethaemoglobin, a stable brown red coloured complex. This complex absorbs light at a specific wavelength of 540nm. The optical density, that is, the intensity of the color, is directly related to the concentration of haemoglobin in the blood sample. </p>
+          <p>&nbsp;</p>
+          <p>Hb Concentration = (Absorbance of the test sample/Absorbance of the standard) x Known Hb concentration of the standard</p>
+          <p>&nbsp;</p>
+          <p>The <strong>Optical detection</strong> principle is applied to analyse blood cells using light-based signals. Blood cells are suspended in a suitable fluid and passed individually through a narrow flow channel. An illuminated light or laser beam illuminates the cells. When the light interacts with the blood cells, it gets scattered at different directions. The analyser measures the light scattered by cells as they pass through an illuminated detection area. Forward scattering detects the cell size, and the side scattering detects the internal complexity and granularity of the specific blood cells.</p>
+          <p>A complete CBC report provides information about RBCs, WBCs, Hb count, Hematocrit (HCT), Platelets and Red-cell indices. The reports were widely used to identify anemia, certain infections, inflammation, and certain blood disorders. Clinically low RBC count is indicative of anaemia or blood loss, and a high RBC count is associated with dehydration or certain blood disorders. Increased WBC count known as leucocytosis, is indicative of infection or inflammation and, Decreased WBC count (leukopenia) is associated with viral infections or bone marrow disorders. Low platelet count (thrombocytopenia) may increase the risk of bleeding, whereas high platelet count (thrombocytosis) may increase the risk of abnormal clot formation in some conditions. The Hb count helps to identify anemia, the oxygen-carrying capacity of blood, and helps in monitoring other medical conditions. Hematocrit is the percentage of total blood volume occupied by red blood cells. If the HCT value is 35%, that means that approximately 35% of the blood volume consists of red blood cells. Low HCT relates to anaemia or blood loss, and high HCT is indicative of dehydration or increase in the RBC production.</p>
+          <p>&nbsp;</p>
+          <p>Red blood cell indices in the CBC report describe the average size and haemoglobin content of red blood cells, useful in classifying different types of anemia. The three main red cell indices are:</p>
+          <p><strong>Mean Corpuscular Volume (MCV)</strong> - The average size and volume of RBCs. MCV is reported in units called femtoliters (fL). The adult normal range of MCV is between 80 and 100 fL. If the MCV is low (&lt; 80 fL), the condition is Microcytic Anemia, where the red blood cells are smaller than normal.  Common causes included Thalassemia (an inherited blood disorder), Anaemia due to chronic disease or inflammation, Iron-deficiency anaemia due to heavy menstral cycle or gastrointestinal bleedings, Lead poisoning, Sideroblastic anaemia due to a rare bone marrow disorder where iron is not properly incorporated into haemoglobin. If MCV is high (&gt; 100 fL), it is referred to as Macrocytic Anemia, where red blood cells are larger than normal. The main types include megaloblastic anaemia which occurs due to a lack of Vitamin B12 or Vitamin B9 (folate) and impaired DNA synthesis and non-megaloblastic anemia, where the cells are large due to membrane changes, rapid cell turnover, or direct bone marrow effects, and DNA synthesis is normal. If the MCV value is normal (80–100 fL ) with normocytic anaemia the red blood cells are a normal size, still an anaemia condition due to sudden blood loss, kidney failure, or haemolysis. </p>
+          <p><strong>Mean corpuscular haemoglobin (MCH)</strong> refers to the average amount of haemoglobin per red blood cell. A low MCH level indicates red blood cells contain less haemoglobin than normal and a high MCH reading indicates red blood cells contain a higher-than-average amount of haemoglobin. The common causes were similar conditions that were discussed in the case of MCV values. </p>
+          <p><strong>Mean Corpuscular Haemoglobin Concentration (MCHC)</strong> in a CBC report indicates the average concentration or density of haemoglobin inside a single red blood cell. Adult normal range is betweeb 32 to 36 g/dL (grams per deciliter). A low MCHC indicates red blood cells contain a lower concentration of haemoglobin than normal relative to their size. In this condition, the cells look paler than usual under a microscope, known as hypochromia. A high MCHC means concentrated haemoglobin inside the red blood cells. </p>
+          <p><strong>Red blood cell distribution width (RDW)</strong> in a routine CBC report measures the variation in the size and volume of erythrocytes. </p>
+          <p>Other common diseases reported using a CBC report in a clinical laboratory include:</p>
+          <ul>
+          <li><p><strong>Acute Bacterial Leukocytosis</strong>, where an elevation in the total WBC count is reported in the CBC report, typically exceeding 11,000 cells/µL in adults due to an infection or inflammation in the body.</p>
+          </li>
+          <li><p><strong>Thrombocytopenia</strong>, a low platelet count below 150,000/mm³, is due to dengue virus infection. </p>
+          </li>
+          <li><p><strong>Polycythemia vera</strong>,  a rare, slow-growing blood cancer resulting in the bone marrow producing too many red blood cells, and often white blood cells and platelets.</p>
+          </li>
+          </ul>
+          <p>&nbsp;</p>
+          <h4 id="applications">Applications</h4>
+          <ol>
+          <li><p>Diagnosis of anemia.</p>
+          </li>
+          <li><p>Detection of bacterial, viral, and other infections.</p>
+          </li>
+          <li><p>Diagnosis of blood disorders such as leukemia, sickle cell anemia, and other blood-related diseases.</p>
+          </li>
+          </ol>
+          
+          </div>
+          <div class="bug-report-mobile">
+              <bug-report id="bug-report" title="[BUG REPORT] BLOOD ANALYSIS &amp; HEMATOLOGY TESTING" page-type="text" context-info="{&quot;organisation&quot;:&quot;Virtual Labs&quot;,&quot;developer_institute&quot;:&quot;AMRT&quot;,&quot;expname&quot;:&quot;BLOOD ANALYSIS &amp; HEMATOLOGY TESTING&quot;,&quot;labname&quot;:&quot;Virtual Lab&quot;,&quot;phase&quot;:&quot;Testing&quot;}" checkbox-json="{&quot;text&quot;:[&quot;Insufficient Content&quot;],&quot;video&quot;:[&quot;Insufficient Content&quot;],&quot;assesment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;assessment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;simulation&quot;:[&quot;Simulation Not Working&quot;,&quot;Incorrect Results/Observations&quot;,&quot;Insufficient/Incorrect Instructions&quot;],&quot;DEFAULT&quot;:[&quot;Page Not Loading&quot;,&quot;Content Not Visible&quot;,&quot;Incorrect Content&quot;]}" position="override" button_style="
+                          position: fixed; 
+                          bottom: 20px;
+                          right: 20px;
+                          z-index: 1;
+                          font-size: 0;
+                          padding: 25px;
+                          border-radius: 50%;
+                          border: none;
+                          background-color: #0fc0ff;
+                          background-image: url(data:image/png;base64,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);
+                          background-repeat: no-repeat;
+                          background-position: center;
+                          background-size: 30px;
+                          filter: invert(1);">
+              </bug-report>
+          </div>        </div>
+      </div>
+      <footer class="text-light pt-2 vlabs-footer d-flex flex-column">
+        <div class="row px-5 mx-0">
+          <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Community Links</span>
+            <a href="https://www.sakshat.ac.in/" class="text-light">Sakshat Portal</a>
+            <a href="http://outreach.vlabs.ac.in/" class="text-light">Outreach Portal</a>
+            <a href="https://vlab.co.in/faq" class="text-light">FAQ: Virtual Labs</a>
+          </div>
+          <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Contact Us</span>
+            <span> Phone: General Information: 011-26582050 </span>
+            <span> Email: support@vlabs.ac.in </span>
+          </div>
+          <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Follow Us</span>
+            <div class="social-links">
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #55acee;" href="https://twitter.com/TheVirtualLabs">
+      	  <i class="fab fa-twitter"></i>
+      	</a>
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #3b5998;" href="https://www.facebook.com/Virtual-Labs-IIT-Delhi-301510159983871/">
+      	  <i class="fab fa-facebook"></i>
+      	</a>
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #e52d27;" href="https://www.youtube.com/watch?v=asxRaOgk6a0">
+      	  <i class="fab fa-youtube"></i>
+      	</a>
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #2867B2;" href="https://in.linkedin.com/in/virtual-labs-008ba9136">
+      	  <i class="fab fa-linkedin"></i>
+      	</a>
+            </div>
+          </div>
+        </div>
+        <div class="m-0 py-2 text-center" style="font-family: &quot;Open Sans&quot;, sans-serif; background: #212121;">
+          <a class="text-primary font-weight-bold" href="https://www.gnu.org/licenses/agpl-3.0.en.html"> AGPL 3.0 </a>
+          &nbsp;&amp;&nbsp;
+          <a class="text-primary font-weight-bold" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"> Creative Commons (CC BY-NC-SA 4.0) </a>
+        </div>
+      </footer>
+    <script src="./assets/js/toggleSidebar.js"></script>
+    <script src="./assets/js/event-handler.js"></script>
+
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register("sw.js");
+        });
+      }
+    </script>
+  
+
+<script type="module" src="https://cdn.vlabs.ac.in/bug-report/vlabs-bug-report.js"></script><script type="module" src="/exp-blood-analysis-haematology-amrt/plugins/svc-rating/index.js"></script><script type="module" src="/exp-blood-analysis-haematology-amrt/plugins/svc-rating/config.js"></script><script type="module" src="https://apis.google.com/js/api.js"></script></body></html>

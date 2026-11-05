@@ -1,0 +1,77 @@
+
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "1. The component of the blood responsible for oxygen transport:",
+      "answers": {
+        "a": "WBC",
+        "b": "RBC",
+        "c": "Platelets",
+        "d": "Plasma"
+      },
+ 
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },   
+
+
+     {
+      "question": "2. The component of the blood that is essential for protection against illness and diseases:",
+      "answers": {
+        "a": "Leukocytes",
+        "b": "Erythrocytes",
+        "c": "Thrombocytes",
+        "d": "Plasma"
+      },
+      
+      "correctAnswer": "a",
+      "difficulty": "beginner"
+    },
+
+
+    
+    {
+      "question": "3. The instrument used for CBC testing in clinical laboratories.",
+      "answers": {
+        "a": "Spectrophotometer",
+        "b": "Flow cytometer",
+        "c": "Automated haematology analyser",
+        "d": "Light Microscope"
+      },
+      
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+
+
+ 
+    {
+      "question": "4. Which of the following is used for staining to identify blood cells ?",
+      "answers": {
+        "a": "Gram staining",
+        "b": "Ziehl–Neelsen staining",
+        "c": "Negative staining",
+        "d": "Wright–Giemsa staining"
+      },
+      
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    },
+
+
+
+    {
+      "question": "5. Which of the following does the CBC report provide?",
+      "answers": {
+        "a": "Hb count",
+        "b": "MCV",
+        "c": "MCH",
+        "d": "All the above"
+      },
+     
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    }
+  ]
+}

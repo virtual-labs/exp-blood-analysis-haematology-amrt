@@ -1,0 +1,128 @@
+
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "1. The anticoagulant commonly used for blood sample collection in an automated haematology analyzer:",
+      "answers": {
+        "a": "Sodium chloride",
+        "b": "Sodium citrate",
+        "c": "EDTA",
+        "d": "Heparin"
+      },
+ 
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },   
+
+
+     {
+      "question": "2. In CBC reporting, the automated haematology analyser employs the principle (s):",
+      "answers": {
+        "a": "Electrical impedance",
+        "b": "Beer-Lambert's Law",
+        "c": "Optical detection principle",
+        "d": "All of the above"
+      },
+      
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    },
+
+
+    
+    {
+      "question": "3. MCV indicates.",
+      "answers": {
+        "a": "Average size and volume of RBCs",
+        "b": "Average amount of haemoglobin per red blood cell.",
+        "c": "Average concentration or density of haemoglobin inside a single red blood cell",
+        "d": "Measures the variation in the size and volume of erythrocytes."
+      },
+      
+      "correctAnswer": "a",
+      "difficulty": "beginner"
+    },
+
+
+ 
+    {
+      "question": "4. The average amount of haemoglobin per red blood cell is represented by:",
+      "answers": {
+        "a": "RDW",
+        "b": "MCHC",
+        "c": "MCH",
+        "d": "MCV"
+      },
+      
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+
+
+
+
+    
+    {
+      "question": "5. The red blood cells are larger than normal. The condition is:",
+      "answers": {
+        "a": "Microcytic Anaemia",
+        "b": "Macrocytic Anaemia",
+        "c": "Normocytic anaemia",
+        "d": "Thrombocytopenia"
+      },
+      
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+
+
+
+
+    
+    {
+      "question": "6. In normocytic anaemia, the MCV value is:",
+      "answers": {
+        "a": "< 80 fL",
+        "b": "80–100 fL",
+        "c": "> 100",
+        "d": "None of the above"
+      },
+      
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+
+
+
+
+    
+    {
+      "question": "7. Haematocrit in the CBC report indicates:",
+      "answers": {
+        "a": "Percentage of total blood volume occupied by red blood cells",
+        "b": "Average size and volume of RBCs",
+        "c": "Average amount of haemoglobin per red blood cell",
+        "d": "Average concentration or density of haemoglobin inside a single red blood cell"
+      },
+      
+      "correctAnswer": "a",
+      "difficulty": "beginner"
+    },
+
+
+
+    {
+      "question": "8. CBC reports are used to detect.",
+      "answers": {
+        "a": "Anaemia",
+        "b": "Cancer",
+        "c": "Infections",
+        "d": "All the above"
+      },
+     
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    }
+  ]
+}
